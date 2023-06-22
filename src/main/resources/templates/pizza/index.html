@@ -6,7 +6,8 @@
 <main class="container">
     <h1 class="text-center text-bg-light fw-semibold">Lista pizze</h1>
     <hr>
-    <div class="table-responsive">
+    <!-- tabella lista pizze -->
+    <div th:if="${pizzaList.size() > 0}" class="table-responsive">
         <table class="table align-middle table-striped table-hover">
             <thead>
             <tr>
@@ -24,6 +25,8 @@
             </tbody>
         </table>
     </div>
+    <!-- messaggio informativo se la lista pizze è vuota -->
+    <h2 th:unless="${pizzaList.size() > 0}">La lista delle pizze è vuota!</h2>
 </main>
 </body>
 </html>
