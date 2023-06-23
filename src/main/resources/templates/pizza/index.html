@@ -6,6 +6,17 @@
 <main class="container">
     <h1 class="text-center text-bg-light fw-semibold">Lista pizze</h1>
     <hr>
+    <!-- form di ricerca -->
+    <div>
+        <form th:action="@{/pizzas}" method="GET">
+            <div class="input-group mb-3">
+                <input type="search" class="form-control" placeholder="Cerca per nome" name="q"
+                       th:value="${searchInput}">
+                <button class="btn btn-outline-secondary" type="submit"><i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+        </form>
+    </div>
     <!-- tabella lista pizze -->
     <div th:if="${pizzaList.size() > 0}" class="table-responsive">
         <table class="table align-middle table-striped table-hover">
@@ -34,8 +45,6 @@
     <div th:unless="${pizzaList.size() > 0}" class="alert alert-info fs-3" role="alert">
         La lista delle pizze è vuota!
     </div>
-
-    <h2></h2>
 </main>
 </body>
 </html>

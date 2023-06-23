@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -22,12 +23,23 @@ public class PizzaController {
     @Autowired
     private PizzaRepository pizzaRepository;
 
+    // metodo che può ricevere un parametro OPZIONALE (da query string)
     @GetMapping
-    public String index(Model model) {
-        // recupero l'elenco delle pizze dal database
-        List<Pizza> pizzas = pizzaRepository.findAll();
+    public String index(@RequestParam(name = "q", required = false) String searchString, Model model) {
+        // q è il nome che ho dato al parametro in get e nella URL devo richiamare questo nome (esempio: ?q=dune)
+        List<Pizza> pizzas;
+        if (searchString == null || searchString.isBlank()) {
+            // se NON ho il parametro esegue la query generica e recupero la lista delle pizze dele database
+            pizzas = pizzaRepository.findAll();
+        } else {
+            // se ho il parametro searchString faccio la query per filtrare la lista
+            pizzas = pizzaRepository.findByNameContainingIgnoreCase(searchString);
+        }
+
         // passo la lista delle pizze alla view
         model.addAttribute("pizzaList", pizzas);
+        // aggiungo un altro attributo al model per mantenere il valore della input dopo l'invio della ricerca filtrata
+        model.addAttribute("searchInput", searchString == null ? "" : searchString);
         // restituisco il nome del template della view
         return "pizza/index";
     }
