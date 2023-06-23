@@ -1,0 +1,8 @@
+.ms-mh-400-cover {
+    max-height: 400px;
+    object-fit: cover;
+}
+
+.ms-white-hover:hover {
+    color: white;
+}

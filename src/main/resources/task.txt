@@ -1,0 +1,22 @@
+Esercizio: Spring La Mia Pizzeria - CRUD
+nome repo: spring-la-mia-pizzeria-crud
+
+1)
+Dobbiamo realizzare un’applicazione web che ci aiuti a gestire la nostra pizzeria. :pizza:
+Abbiamo bisogno di creare la prima pagina (index) dove mostriamo tutte le pizze che prepariamo. Nei prossimi giorni implementeremo il resto dei metodi per le CRUD.
+Una pizza avrà le seguenti informazioni :
+un nome
+una descrizione
+una foto (url)
+un prezzo
+Creaimo il database, repository e l’entity per gestire le CRUD delle pizze.
+Implementiamo quindi il controller con il metodo index che restituisce una view per mostrare l’elenco delle pizze caricate dal database (possiamo creare una tabella, una card list con bootstrap o una qualche grafica a nostro piacimento che mostri questo elenco...liberiamo la creatività!)
+L’elenco potrebbe essere vuoto : in quel caso dobbiamo mostrare un messaggio che indichi all’utente che non ci sono pizze presenti nella nostra applicazione.
+Gestiamo i componenti riutilizzabili con i fragments.
+
+2)
+Lo scopo di oggi è quello di mostrare i dettagli di una singola pizza.
+Ogni pizza dell’elenco avrà quindi un pulsante ( o un’area cliccabile) che ci porterà a una pagina che mostrerà i dettagli della pizza scelta.
+Dobbiamo quindi inviare l’id come parametro dell’URL, recuperarlo nel metodo del controller, caricare i dati della pizza ricercata e passarli come model.
+La view a quel punto li mostrerà all’utente con la grafica che preferiamo.
+Nella pagina con l’elenco delle pizze aggiungiamo un campo di testo che se compilato filtrerà le pizze (lato server) aventi come titolo quello inserito dall’utente.
