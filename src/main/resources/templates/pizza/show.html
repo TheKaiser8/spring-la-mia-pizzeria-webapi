@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="/fragments/resources :: head(pageTitle='Dettagli pizza')">
+</head>
+<body class="m-3">
+<main class="container">
+    <h1 class="text-center text-bg-light fw-semibold" th:text="${pizza.name}"></h1>
+    <div class="container d-flex flex-column align-items-center py-4">
+        <div class="card w-50 rounded-top">
+            <div class="text-center p-3 bg-dark rounded-top">
+                <img th:src="${pizza.photoUrl}" class="img-thumbnail" th:alt="${pizza.name}">
+            </div>
+            <div class="card-body">
+                <div class="bg-light rounded-top p-3">
+                    <h4 class="card-title text-center fw-bold"></h4>
+                    <p>
+                        <strong>Descrizione: </strong><span th:text="${pizza.description}"></span>
+                    </p>
+                    <p>
+                        <strong>Prezzo: </strong><span th:text="|${pizza.price}€|"></span>
+                    </p>
+                </div>
+                <div class="text-center bg-light rounded-bottom pb-3">
+                    <a th:href="@{/pizzas}" class="btn btn-primary fw-semibold m-1"><i
+                            class="fa-solid fa-arrow-left me-1"></i> Torna
+                        all'elenco</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

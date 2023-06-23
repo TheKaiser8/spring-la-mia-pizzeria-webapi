@@ -3,6 +3,7 @@ package org.lessons.springlamiapizzeriacrud.model;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity // dà significato alla classe, hibernate saprà che deve creare questa entità a database
 @Table(name = "pizzas") // diamo il nome alla tabella a database
@@ -21,11 +22,13 @@ public class Pizza {
 
     private BigDecimal price;
 
+    private LocalDateTime createdAt;
+
+    // In Spring GETTERS & SETTERS sono obbligatori per ogni campo
     public Integer getId() {
         return id;
     }
 
-    // In Spring GETTERS & SETTERS sono obbligatori per ogni campo
     public void setId(Integer id) {
         this.id = id;
     }
@@ -60,5 +63,13 @@ public class Pizza {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }
