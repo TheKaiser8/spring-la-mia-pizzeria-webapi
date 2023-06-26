@@ -13,39 +13,40 @@
         <div class="col-6 mb-3">
             <label class="form-label" for="name">Nome*</label>
             <input class="form-control" type="text" id="name" th:field="*{name}" th:errorClass="is-invalid">
-            <!--            <div th:if="${#fields.hasErrors('name'}" class="invalid-feedback">-->
-            <!--                <ul>-->
-            <!--                    <li th:each="err : ${fields.errors('name'}" th:text="${err}"></li>-->
-            <!--                </ul>-->
-            <!--            </div>-->
+            <div th:if="${#fields.hasErrors('name')}" class="invalid-feedback">
+                <ul>
+                    <li th:each="err : ${#fields.errors('name')}" th:text="${err}"></li>
+                </ul>
+            </div>
         </div>
         <div class="col-12 mb-3">
             <label class="form-label" for="description">Descrizione*</label>
             <textarea class="form-control" id="description" th:field="*{description}" th:errorClass="is-invalid"
                       rows="5"></textarea>
-            <!--            <div th:if="${#fields.hasErrors('description'}" class="invalid-feedback">-->
-            <!--                <ul>-->
-            <!--                    <li th:each="err : ${fields.errors('description'}" th:text="${err}"></li>-->
-            <!--                </ul>-->
-            <!--            </div>-->
+            <div th:if="${#fields.hasErrors('description')}" class="invalid-feedback">
+                <ul>
+                    <li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
+                </ul>
+            </div>
         </div>
         <div class="col-6 mb-3">
             <label class="form-label" for="photo-url">Url immagine*</label>
             <input class="form-control" type="text" id="photo-url" th:field="*{photoUrl}" th:errorClass="is-invalid">
-            <!--            <div th:if="${#fields.hasErrors('photoUrl'}" class="invalid-feedback">-->
-            <!--                <ul>-->
-            <!--                    <li th:each="err : ${fields.errors('photoUrl'}" th:text="${err}"></li>-->
-            <!--                </ul>-->
-            <!--            </div>-->
+            <div th:if="${#fields.hasErrors('photoUrl')}" class="invalid-feedback">
+                <ul>
+                    <li th:each="err : ${#fields.errors('photoUrl')}" th:text="${err}"></li>
+                </ul>
+            </div>
         </div>
         <div class="col-6 mb-3">
             <label class="form-label" for="price">Prezzo*</label>
-            <input class="form-control" type="number" id="price" th:field="*{price}" th:errorClass="is-invalid">
-            <!--            <div th:if="${#fields.hasErrors('price'}" class="invalid-feedback">-->
-            <!--                <ul>-->
-            <!--                    <li th:each="err : ${fields.errors('price'}" th:text="${err}"></li>-->
-            <!--                </ul>-->
-            <!--            </div>-->
+            <input class="form-control" type="number" id="price" th:field="*{price}" th:errorClass="is-invalid" min="0"
+                   step=".01">
+            <div th:if="${#fields.hasErrors('price')}" class="invalid-feedback">
+                <ul>
+                    <li th:each="err : ${#fields.errors('price')}" th:text="${err}"></li>
+                </ul>
+            </div>
         </div>
         <div class="col-12">
             <button class="btn btn-success fw-semibold me-2" type="submit"><i class="fa-solid fa-check me-1"></i> Salva

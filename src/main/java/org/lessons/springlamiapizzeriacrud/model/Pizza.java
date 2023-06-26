@@ -1,7 +1,7 @@
 package org.lessons.springlamiapizzeriacrud.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -17,21 +17,21 @@ public class Pizza {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // per indicare l'AUTO-INCREMENT
     private Integer id;
 
-    @NotBlank
-    @Size(min = 1, max = 100)
+    @NotBlank(message = "Il titolo è obbligatorio, il campo non può essere vuoto")
+    @Size(min = 1, max = 100, message = "Il titolo deve avere un numero di caratteri compreso tra 1 e 100")
     @Column(nullable = false)
     private String name;
 
-    @NotBlank
-    @Size(min = 1, max = 250)
+    @NotBlank(message = "La descrizione è obbligatoria, il campo non può essere vuoto")
+    @Size(min = 1, max = 250, message = "La descrizione deve avere un numero di caratteri compreso tra 1 e 250")
     private String description;
 
-    @NotBlank
-    @Size(min = 1, max = 250)
+    @NotBlank(message = "URL immagine è obbligatorio, il campo non può essere vuoto")
+    @Size(min = 1, max = 250, message = "URL deve avere un numero di caratteri compreso tra 1 e 250")
     private String photoUrl;
 
-    @NotNull
-    @Min(0)
+    @NotNull(message = "Il prezzo è obbligatorio, non può essere nullo")
+    @DecimalMin(value = "0.01", message = "Il prezzo deve essere maggiore o uguale a zero")
     private BigDecimal price;
 
     private LocalDateTime createdAt;
