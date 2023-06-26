@@ -7,8 +7,10 @@
     <nav th:replace="~{/fragments/navbar :: navbar(current='pizzas')}"></nav>
 </header>
 <main class="container">
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="fw-semibold text-danger mb-sm-0 mb-3 ">Elenco pizze</h1>
+    <h1 class="fw-semibold text-danger mb-4">Elenco pizze</h1>
+    <div class="d-sm-flex align-items-center justify-content-between mb-3">
+        <a th:href="@{/pizzas/create}" class="btn btn-primary fw-semibold"><i
+                class="fa-solid fa-plus me-1"></i> Crea nuova pizza</a>
         <!-- form di ricerca -->
         <form th:action="@{/pizzas}" method="GET">
             <div class="input-group">
@@ -22,7 +24,7 @@
         </form>
     </div>
     <!-- tabella lista pizze -->
-    <div th:if="${pizzaList.size() > 0}" class="">
+    <div th:if="${pizzaList.size() > 0}">
         <table class="table table-striped table-responsive table-hover border-danger align-middle">
             <thead class="border-bottom border-4 border-danger">
             <tr>

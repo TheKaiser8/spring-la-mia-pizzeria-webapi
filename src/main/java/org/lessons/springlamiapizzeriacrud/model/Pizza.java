@@ -1,6 +1,10 @@
 package org.lessons.springlamiapizzeriacrud.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -13,13 +17,21 @@ public class Pizza {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // per indicare l'AUTO-INCREMENT
     private Integer id;
 
+    @NotBlank
+    @Size(min = 1, max = 100)
     @Column(nullable = false)
     private String name;
 
+    @NotBlank
+    @Size(min = 1, max = 250)
     private String description;
 
+    @NotBlank
+    @Size(min = 1, max = 250)
     private String photoUrl;
 
+    @NotNull
+    @Min(0)
     private BigDecimal price;
 
     private LocalDateTime createdAt;
