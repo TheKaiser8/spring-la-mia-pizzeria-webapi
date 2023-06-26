@@ -6,3 +6,14 @@
 .ms-white-hover:hover {
     color: white;
 }
+
+.navbar-nav-right {
+    margin-left: auto;
+}
+
+.ms-active {
+    background-color: #fff;
+    color: #dc3545;
+    padding: 0.5rem;
+    border-radius: 0.2rem;
+}

@@ -1,8 +1,11 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="/fragments/resources :: head(pageTitle='Dettagli pizza')">
+<head th:insert="~{/fragments/resources :: head(pageTitle='Dettagli pizza')}">
 </head>
-<body class="m-3">
+<body>
+<header>
+    <nav th:replace="~{/fragments/navbar :: navbar(current='pizzas')}"></nav>
+</header>
 <main class="container">
     <h1 class="text-center text-bg-light fw-semibold" th:text="${pizza.name}"></h1>
     <div class="container d-flex flex-column align-items-center py-4">
@@ -21,9 +24,10 @@
                     </p>
                 </div>
                 <div class="text-center bg-light rounded-bottom pb-3">
-                    <a th:href="@{/pizzas}" class="btn btn-primary fw-semibold m-1"><i
-                            class="fa-solid fa-arrow-left me-1"></i> Torna
-                        all'elenco</a>
+                    <a th:href="@{/pizzas}" class="btn btn-primary fw-semibold m-1">
+                        <i class="fa-solid fa-arrow-left me-1"></i> Torna
+                        all'elenco
+                    </a>
                 </div>
             </div>
         </div>
