@@ -46,6 +46,9 @@
                     <a th:href="@{|/pizzas/edit/${pizza.id}|}" class="btn btn-outline-warning ms-white-hover my-1">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </a>
+                    <form class="d-inline-block" th:action="@{|/pizzas/delete/${pizza.id}|}" method="post">
+                        <button class="btn btn-outline-danger" type="submit"><i class="fa-solid fa-trash"></i></button>
+                    </form>
                 </td>
             </tr>
             </tbody>

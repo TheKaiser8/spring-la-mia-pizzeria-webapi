@@ -23,6 +23,7 @@ public class PizzaController {
     @Autowired
     private PizzaRepository pizzaRepository;
 
+    // READ METHODS
     // metodo che può ricevere un parametro OPZIONALE (da query string)
     @GetMapping
     public String index(@RequestParam(name = "q", required = false) String searchString, Model model) {
@@ -70,6 +71,7 @@ public class PizzaController {
         return "/pizza/show";
     }
 
+    // CREATE METHODS
     // metodo che restituisce la pagina contenente il form di creazione di una nuova pizza
     @GetMapping("/create")
     public String create(Model model) {
@@ -97,6 +99,7 @@ public class PizzaController {
         return "redirect:/pizzas";
     }
 
+    // EDIT METHODS
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Integer pizzaId, Model model) {
         /*
@@ -148,6 +151,17 @@ public class PizzaController {
         formPizza.setCreatedAt(pizzaToEdit.getCreatedAt());
         // salvo i dati
         pizzaRepository.save(formPizza);
+        return "redirect:/pizzas";
+    }
+
+    // DELETE METHOD
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Integer id) {
+        // verifichiamo che esiste il book con quell'id
+        Pizza bookToDelete = getPizzaById(id);
+        // lo cancelliamo
+        pizzaRepository.delete(bookToDelete);
+        // facciamo la redirect alla lista dei book
         return "redirect:/pizzas";
     }
 
