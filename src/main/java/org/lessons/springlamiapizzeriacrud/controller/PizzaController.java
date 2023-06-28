@@ -1,6 +1,8 @@
 package org.lessons.springlamiapizzeriacrud.controller;
 
 import jakarta.validation.Valid;
+import org.lessons.springlamiapizzeriacrud.messages.AlertMessage;
+import org.lessons.springlamiapizzeriacrud.messages.AlertMessageType;
 import org.lessons.springlamiapizzeriacrud.model.Pizza;
 import org.lessons.springlamiapizzeriacrud.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -83,7 +86,7 @@ public class PizzaController {
 
     // metodo che gestisce la richiesta in post del form con i dati della pizza
     @PostMapping("/create")
-    public String store(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult) {
+    public String store(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         // i dati della pizza sono dentro all'oggetto formPizza (@ModelAtrribute("pizza") è un altro modo per scrivere model.addAttribute sottoforma di annotation)
         // verifico se in validazione ci sono stati errori
         if (bindingResult.hasErrors()) {
@@ -95,6 +98,8 @@ public class PizzaController {
         formPizza.setCreatedAt(LocalDateTime.now());
         // persisto formPizza su database
         pizzaRepository.save(formPizza); // metodo save fa una create sql se l'oggetto con quella PRIMARY KEY non esiste, altrimenti fa l'update
+        // aggiungo un messaggio di successo come flash attribute utilizzando un classe CUSTOM per personalizzare i messaggi degli alert
+        redirectAttributes.addFlashAttribute("message", new AlertMessage(AlertMessageType.SUCCESS, "La pizza " + "\"" + formPizza.getName() + "\"" + " è stata creata!"));
         // se l'operazione va a buon fine rimando alla lista delle pizze
         return "redirect:/pizzas";
     }
@@ -138,7 +143,7 @@ public class PizzaController {
     }
 
     @PostMapping("edit/{id}")
-    public String update(@PathVariable Integer id, @Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult) {
+    public String update(@PathVariable Integer id, @Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         // cerco la pizza per id
         Pizza pizzaToEdit = getPizzaById(id); // vecchia versione della pizza
         // formPizza è la nuova versione della pizza
@@ -151,17 +156,24 @@ public class PizzaController {
         formPizza.setCreatedAt(pizzaToEdit.getCreatedAt());
         // salvo i dati
         pizzaRepository.save(formPizza);
+        // aggiungo un messaggio di successo come flash attribute utilizzando un classe CUSTOM per personalizzare i messaggi degli alert
+        redirectAttributes.addFlashAttribute("message", new AlertMessage(AlertMessageType.SUCCESS, "La pizza " + "\"" + formPizza.getName() + "\"" + " è stata aggiornata!"));
         return "redirect:/pizzas";
     }
 
     // DELETE METHOD
     @PostMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Integer id) {
-        // verifichiamo che esiste il book con quell'id
-        Pizza bookToDelete = getPizzaById(id);
+    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+        // RedirectAttributes: interfaccia che estende model e ci consente di aggiungere un attributo (esempio: flashAttribute)
+        // verifichiamo che esiste La pizza con quell'id
+        Pizza pizzaToDelete = getPizzaById(id);
         // lo cancelliamo
-        pizzaRepository.delete(bookToDelete);
-        // facciamo la redirect alla lista dei book
+        pizzaRepository.delete(pizzaToDelete);
+        // aggiungo un messaggio di successo come flash attribute
+//        redirectAttributes.addFlashAttribute("message", "La pizza " + "\"" + pizzaToDelete.getName() + "\"" + " è stata cancellata!");
+        // aggiungo un messaggio di successo come flash attribute utilizzando un classe CUSTOM per personalizzare i messaggi degli alert
+        redirectAttributes.addFlashAttribute("message", new AlertMessage(AlertMessageType.SUCCESS, "La pizza " + "\"" + pizzaToDelete.getName() + "\"" + " è stata cancellata!"));
+        // facciamo la redirect alla lista delle pizze
         return "redirect:/pizzas";
     }
 
