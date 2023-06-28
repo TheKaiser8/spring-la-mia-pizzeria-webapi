@@ -1,0 +1,73 @@
+<!--<!doctype html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head th:insert="~{/fragments/resources :: head(pageTitle='Crea nuova pizza')}">-->
+<!--</head>-->
+<!--<body>-->
+<!--<header>-->
+<!--    <nav th:replace="~{/fragments/navbar :: navbar(current='pizzas')}"></nav>-->
+<!--</header>-->
+<!--<main class="container">-->
+<!--    <h1 class="fw-semibold text-danger mb-3">Nuova pizza</h1>-->
+<!--    &lt;!&ndash; form di creazione nuova pizza &ndash;&gt;-->
+<!--    <form th:action="@{/pizzas/create}" th:object="${pizza}" method="post" id="pizza-form" class="row">-->
+<!--        <div class="col-12 col-lg-6 mb-3">-->
+<!--            <label class="form-label fw-semibold" for="name">Nome*</label>-->
+<!--            <input class="form-control" type="text" id="name" th:field="*{name}" th:errorClass="is-invalid"-->
+<!--                   placeholder="Inserisci il nome della pizza...">-->
+<!--            <div class="form-text">Il campo nome non può essere vuoto e deve avere un numero di caratteri compreso tra-->
+<!--                1 e 100-->
+<!--            </div>-->
+<!--            <div th:if="${#fields.hasErrors('name')}" class="invalid-feedback">-->
+<!--                <ul>-->
+<!--                    <li th:each="err : ${#fields.errors('name')}" th:text="${err}"></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-12 mb-3">-->
+<!--            <label class="form-label fw-semibold" for="description">Descrizione*</label>-->
+<!--            <textarea class="form-control" id="description" th:field="*{description}" th:errorClass="is-invalid"-->
+<!--                      rows="5" placeholder="Inserisci la descrizione della pizza..."></textarea>-->
+<!--            <div class="form-text">Il campo descrizione non può essere vuoto e deve avere un numero di caratteri-->
+<!--                compreso tra 1 e 500-->
+<!--            </div>-->
+<!--            <div th:if="${#fields.hasErrors('description')}" class="invalid-feedback">-->
+<!--                <ul>-->
+<!--                    <li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-12 col-lg-8 mb-3">-->
+<!--            <label class="form-label fw-semibold" for="photo-url">Url immagine*</label>-->
+<!--            <input class="form-control" type="text" id="photo-url" th:field="*{photoUrl}" th:errorClass="is-invalid"-->
+<!--                   placeholder="Esempio: https://lamiapizza.com/home">-->
+<!--            <div class="form-text">Il campo URL non può essere vuoto, deve essere un indirizzo valido e deve avere-->
+<!--                massimo 500 caratteri-->
+<!--            </div>-->
+<!--            <div th:if="${#fields.hasErrors('photoUrl')}" class="invalid-feedback">-->
+<!--                <ul>-->
+<!--                    <li th:each="err : ${#fields.errors('photoUrl')}" th:text="${err}"></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-12 col-md-6 col-lg-4 mb-3">-->
+<!--            <label class="form-label fw-semibold" for="price">Prezzo*</label>-->
+<!--            <input class="form-control" type="number" id="price" th:field="*{price}" th:errorClass="is-invalid" min="0"-->
+<!--                   step=".01" placeholder="00.00">-->
+<!--            <div class="form-text">Il campo prezzo non può essere nullo e deve essere un numero compreso tra 0 e 99.99-->
+<!--            </div>-->
+<!--            <div th:if="${#fields.hasErrors('price')}" class="invalid-feedback">-->
+<!--                <ul>-->
+<!--                    <li th:each="err : ${#fields.errors('price')}" th:text="${err}"></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-12 mt-3">-->
+<!--            <button class="btn btn-success fw-semibold me-2" type="submit"><i class="fa-solid fa-check me-1"></i> Salva-->
+<!--            </button>-->
+<!--            <a class="btn btn-primary fw-semibold" th:href="@{/pizzas}"><i class="fa-solid fa-delete-left me-1"></i>-->
+<!--                Annulla</a>-->
+<!--        </div>-->
+<!--    </form>-->
+<!--</main>-->
+<!--</body>-->
+<!--</html>-->

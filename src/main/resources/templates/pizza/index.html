@@ -9,7 +9,7 @@
 <main class="container">
     <h1 class="fw-semibold text-danger mb-4">Elenco pizze</h1>
     <div class="d-sm-flex align-items-center justify-content-between mb-3">
-        <a th:href="@{/pizzas/create}" class="btn btn-primary fw-semibold"><i
+        <a th:href="@{/pizzas/create}" class="btn btn-primary fw-semibold mb-3 mb-sm-0"><i
                 class="fa-solid fa-plus me-1"></i> Crea nuova pizza</a>
         <!-- form di ricerca -->
         <form th:action="@{/pizzas}" method="GET">
@@ -42,6 +42,9 @@
                 <td>
                     <a th:href="@{|/pizzas/${pizza.id}|}" class="btn btn-outline-info ms-white-hover my-1">
                         <i class="fa-solid fa-eye"></i>
+                    </a>
+                    <a th:href="@{|/pizzas/edit/${pizza.id}|}" class="btn btn-outline-warning ms-white-hover my-1">
+                        <i class="fa-solid fa-pen-to-square"></i>
                     </a>
                 </td>
             </tr>

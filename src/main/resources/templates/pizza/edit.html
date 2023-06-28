@@ -1,15 +1,18 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="~{/fragments/resources :: head(pageTitle='Crea nuova pizza')}">
+<head th:insert="~{/fragments/resources :: head(pageTitle='Form pizza')}">
 </head>
-<body>
+<body th:with="isEdit=${pizza.id != null}">
 <header>
     <nav th:replace="~{/fragments/navbar :: navbar(current='pizzas')}"></nav>
 </header>
 <main class="container">
-    <h1 class="fw-semibold text-danger mb-3">Nuova pizza</h1>
-    <!-- form di creazione nuova pizza -->
-    <form th:action="@{/pizzas/create}" th:object="${pizza}" method="post" id="pizza-form" class="row">
+    <h1 class="fw-semibold text-danger mb-3" th:object="${pizza}"
+        th:text="|${isEdit ? 'Modifica' : 'Nuova'} pizza|"></h1>
+    <!-- utilizzo pipe per concatenare una stringa con parametro dinamico e non ripetere la parola pizza -->
+    <!-- form di creazione/modifica pizza -->
+    <form th:with="formAction=${isEdit ? '/pizzas/edit/'+ pizza.id : '/pizzas/create'}" th:action="@{${formAction}}"
+          th:object="${pizza}" method="post" id="pizza-form" class="row">
         <div class="col-12 col-lg-6 mb-3">
             <label class="form-label fw-semibold" for="name">Nome*</label>
             <input class="form-control" type="text" id="name" th:field="*{name}" th:errorClass="is-invalid"

@@ -25,8 +25,8 @@ public class Pizza {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @NotBlank(message = "URL immagine è obbligatorio, il campo non può essere vuoto")
-    @Size(min = 1, max = 500, message = "URL deve avere un numero massimo di 500 caratteri")
+    @NotBlank(message = "L''URL immagine è obbligatorio, il campo non può essere vuoto") // per messaggio
+    @Size(min = 1, max = 500, message = "L''URL deve avere un numero massimo di 500 caratteri")
     @URL(message = "Il campo URL deve essere un indirizzo valido")
     private String photoUrl;
 

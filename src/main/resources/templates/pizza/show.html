@@ -7,7 +7,7 @@
     <nav th:replace="~{/fragments/navbar :: navbar(current='pizzas')}"></nav>
 </header>
 <main class="container">
-    <h1 class="text-center text-bg-light fw-semibold" th:text="${pizza.name}"></h1>
+    <h1 class="text-center text-danger fw-semibold" th:text="${pizza.name}"></h1>
     <div class="container d-flex flex-column align-items-center py-4">
         <div class="card w-50 rounded-top">
             <div class="text-center p-3 bg-dark rounded-top">
