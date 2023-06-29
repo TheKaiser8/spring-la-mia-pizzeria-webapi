@@ -92,4 +92,18 @@ public class OfferController {
         // faccio una redirect alla pagina di dettaglio della pizza
         return "redirect:/pizzas/" + formOffer.getPizza().getId(); // concateno la stringa di reindirizzamento prendendo l'id della pizza attraverso l'input hidden del form dell'offerta (formOffer)
     }
+
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Integer offerId) {
+        // verificare se su database esiste l'offerta con quell'id
+        Optional<Offer> offerToDelete = offerRepository.findById(offerId);
+        if (offerToDelete.isEmpty()) {
+            // ritorno un HTTP Status 404 Not Found
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "L'offerta con ID " + offerId + " non è stata trovata");
+        }
+        // se l'offerta esiste la cancello
+        offerRepository.delete(offerToDelete.get());
+        // faccio una redirect alla pagina di dettaglio della pizza
+        return "redirect:/pizzas/" + offerToDelete.get().getPizza().getId(); // concateno la stringa di reindirizzamento prendendo l'id della pizza di cui ho cancellato l'offerta
+    }
 }
