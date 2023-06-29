@@ -16,10 +16,10 @@ public class Offer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull
+    @NotNull(message = "La data di inizio è obbligatoria, non può essere nulla")
     private LocalDate startOfferDate;
 
-    @NotNull
+    @NotNull(message = "La data di fine è obbligatoria, non può essere nulla")
     private LocalDate endOfferDate;
 
     @NotBlank(message = "Il titolo è obbligatorio, il campo non può essere vuoto")

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{/fragments/resources :: head(pageTitle='Offerta speciale')}">
+</head>
+<body th:with="isEdit=${offer.id != null}">
+<header>
+    <nav th:replace="~{/fragments/navbar :: navbar(current='pizzas')}"></nav>
+</header>
+<main class="container">
+    <h1 class="fw-semibold text-danger mb-3"
+        th:text="|${isEdit ? 'Modifica' : 'Nuova'} offerta speciale pizza: ${offer.pizza.name}|">
+    </h1>
+    <!-- utilizzo pipe per concatenare una stringa con parametro dinamico e non ripetere la parola pizza -->
+    <!-- form di creazione/modifica pizza -->
+    <form th:with="formAction=${isEdit ? '/offers/edit/'+ offer.id : '/offers/create'}" th:action="@{${formAction}}"
+          th:object="${offer}" method="post" id="offer-form" class="row">
+        <!-- input hidden per inviare insieme ai campi del form anche l'oggetto pizza corrispondente -->
+        <input type="hidden" th:field="*{pizza}">
+        <div class="col-12 col-lg-6 mb-3">
+            <label class="form-label fw-semibold" for="offer-title">Titolo*</label>
+            <input class="form-control" type="text" id="offer-title" th:field="*{offerTitle}" th:errorClass="is-invalid"
+                   placeholder="Inserisci il titolo dell'offerta...">
+            <div class="form-text">Il campo titolo non può essere vuoto, deve avere almeno 1 carattere e non superare i
+                50 caratteri
+            </div>
+            <div th:if="${#fields.hasErrors('offerTitle')}" class="invalid-feedback">
+                <ul>
+                    <li th:each="err : ${#fields.errors('offerTitle')}" th:text="${err}"></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6 mb-3">
+            <label class="form-label fw-semibold" for="start-offer-date">Data inizio*</label>
+            <input class="form-control" type="date" id="start-offer-date" th:field="*{startOfferDate}"
+                   th:errorClass="is-invalid">
+            <div class="form-text">Il campo data inizio è obbligatorio</div>
+
+            <div th:if="${#fields.hasErrors('startOfferDate')}" class="invalid-feedback">
+                <ul>
+                    <li th:each="err : ${#fields.errors('startOfferDate')}" th:text="${err}"></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6 mb-3">
+            <label class="form-label fw-semibold" for="end-offer-date">Data fine*</label>
+            <input class="form-control" type="date" id="end-offer-date" th:field="*{endOfferDate}"
+                   th:errorClass="is-invalid">
+            <div class="form-text">Il campo data fine è obbligatorio</div>
+            <div th:if="${#fields.hasErrors('endOfferDate')}" class="invalid-feedback">
+                <ul>
+                    <li th:each="err : ${#fields.errors('endOfferDate')}" th:text="${err}"></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-12 mt-3">
+            <button class="btn btn-success fw-semibold me-2" type="submit"><i class="fa-solid fa-check me-1"></i> Salva
+            </button>
+            <!-- rimando alla pagina di dettaglio della pizza -->
+            <a class="btn btn-primary fw-semibold" th:href="@{|/pizzas/${offer.pizza.id}|}"><i
+                    class="fa-solid fa-delete-left me-1"></i>
+                Annulla</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>
