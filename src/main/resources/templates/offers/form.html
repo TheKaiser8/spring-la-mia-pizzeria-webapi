@@ -10,8 +10,7 @@
     <h1 class="fw-semibold text-danger mb-3"
         th:text="|${isEdit ? 'Modifica' : 'Nuova'} offerta speciale pizza: ${offer.pizza.name}|">
     </h1>
-    <!-- utilizzo pipe per concatenare una stringa con parametro dinamico e non ripetere la parola pizza -->
-    <!-- form di creazione/modifica pizza -->
+    <!-- form di creazione/modifica offerta speciale -->
     <form th:with="formAction=${isEdit ? '/offers/edit/'+ offer.id : '/offers/create'}" th:action="@{${formAction}}"
           th:object="${offer}" method="post" id="offer-form" class="row">
         <!-- input hidden per inviare insieme ai campi del form anche l'oggetto pizza corrispondente -->

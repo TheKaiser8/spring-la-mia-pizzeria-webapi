@@ -44,6 +44,7 @@
                     <th>Titolo</th>
                     <th>Data inizio</th>
                     <th>Data fine</th>
+                    <th>Azioni</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -51,6 +52,11 @@
                     <td th:text="*{offerTitle}"></td>
                     <td th:text="*{#temporals.format(startOfferDate, 'dd/MM/yyyy')}"></td>
                     <td th:text="*{#temporals.format(endOfferDate, 'dd/MM/yyyy')}"></td>
+                    <td>
+                        <a th:href="@{|/offers/edit/*{id}|}" class="btn btn-outline-warning ms-white-hover my-1">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                    </td>
                 </tr>
                 </tbody>
             </table>

@@ -26,6 +26,7 @@ public class OfferController {
     @Autowired
     OfferRepository offerRepository;
 
+    // CREATE METHODS
     @GetMapping("/create")
     public String create(@RequestParam("pizzaId") Integer pizzaId, Model model) {
         // creo una nuova offerta
@@ -52,6 +53,41 @@ public class OfferController {
             return "/offers/form";
         }
         // se non ci sono errori salvo l'offerta
+        offerRepository.save(formOffer);
+        // faccio una redirect alla pagina di dettaglio della pizza
+        return "redirect:/pizzas/" + formOffer.getPizza().getId(); // concateno la stringa di reindirizzamento prendendo l'id della pizza attraverso l'input hidden del form dell'offerta (formOffer)
+    }
+
+    // EDIT METHODS
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable("id") Integer offerId, Model model) {
+        // verificare se su database esiste l'offerta con quell'id
+        Optional<Offer> offer = offerRepository.findById(offerId);
+        if (offer.isEmpty()) {
+            // ritorno un HTTP Status 404 Not Found
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "L'offerta con ID " + offerId + " non è stata trovata");
+        }
+        // recupero i dati dell'offerta passandoli al model
+        model.addAttribute("offer", offer.get());
+        // ritorno il template del form
+        return "/offers/form";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String update(@PathVariable Integer id, @Valid @ModelAttribute("offer") Offer formOffer, BindingResult bindingResult) {
+        // verificare se su database esiste l'offerta con quell'id
+        Optional<Offer> offerToEdit = offerRepository.findById(id);
+        if (bindingResult.hasErrors()) {
+            // se ci sono errori ricreo il template del form (unico per create ed edit)
+            return "/offers/form";
+        }
+        if (offerToEdit.isEmpty()) {
+            // ritorno un HTTP Status 404 Not Found
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "L'offerta con ID " + id + " non è stata trovata");
+        }
+        // setto l'id dell'offerta al formOffer
+        formOffer.setId(id);
+        // salvo il formOffer su database (update)
         offerRepository.save(formOffer);
         // faccio una redirect alla pagina di dettaglio della pizza
         return "redirect:/pizzas/" + formOffer.getPizza().getId(); // concateno la stringa di reindirizzamento prendendo l'id della pizza attraverso l'input hidden del form dell'offerta (formOffer)
