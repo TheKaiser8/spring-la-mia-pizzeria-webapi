@@ -8,8 +8,9 @@
 </header>
 <main class="container">
     <h1 class="text-center text-danger fw-semibold" th:text="${pizza.name}"></h1>
-    <div class="container d-flex flex-column align-items-center py-4">
-        <div class="card w-50 rounded-top">
+    <div class="container d-flex align-items-center py-4">
+        <!-- card dettagli pizza -->
+        <div class="card w-50 rounded-top me-5">
             <div class="text-center p-3 bg-dark rounded-top">
                 <img th:src="${pizza.photoUrl}" class="img-thumbnail" th:alt="${pizza.name}">
             </div>
@@ -30,6 +31,30 @@
                     </a>
                 </div>
             </div>
+        </div>
+        <!-- tabella offerte pizza -->
+        <div th:if="${pizza.offers.size > 0}" class="col-6">
+            <h2 class="text-center text-danger fw-semibold">Offerte speciali</h2>
+            <table class="table table-striped table-responsive table-hover border-danger align-middle">
+                <thead class="border-bottom border-4 border-danger">
+                <tr>
+                    <th>Titolo</th>
+                    <th>Data inizio</th>
+                    <th>Data fine</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="offer : ${pizza.offers}" th:object="${offer}">
+                    <td th:text="*{offerTitle}"></td>
+                    <td th:text="*{#temporals.format(startOfferDate, 'dd/MM/yyyy')}"></td>
+                    <td th:text="*{#temporals.format(endOfferDate, 'dd/MM/yyyy')}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- messaggio informativo se la pizza NON ha offerte associate -->
+        <div th:unless="${pizza.offers.size > 0}" class="alert alert-info col-6">
+            <h4>Non sono presenti offerte speciali</h4>
         </div>
     </div>
 </main>

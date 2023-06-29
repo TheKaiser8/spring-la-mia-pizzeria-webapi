@@ -52,9 +52,14 @@
                     <a th:href="@{|/pizzas/edit/${pizza.id}|}" class="btn btn-outline-warning ms-white-hover my-1">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </a>
-                    <form class="d-inline-block" th:action="@{|/pizzas/delete/${pizza.id}|}" method="post">
+                    <!-- impedisco l'azione di eliminazione della pizza se ci sono delle offerte associate -->
+                    <form class="d-inline-block" th:action="@{|/pizzas/delete/${pizza.id}|}"
+                          method="post" th:if="${pizza.offers.size == 0}">
                         <button class="btn btn-outline-danger" type="submit"><i class="fa-solid fa-trash"></i></button>
                     </form>
+                    <!-- mostro un pulsante senza funzionalità e disabilitato ai fini di una migliore user experience -->
+                    <button th:unless="${pizza.offers.size == 0}" class="btn btn-outline-danger" type="submit" disabled>
+                        <i class="fa-solid fa-trash"></i></button>
                 </td>
             </tr>
             </tbody>

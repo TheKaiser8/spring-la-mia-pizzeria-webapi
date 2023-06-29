@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.URL;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity // dà significato alla classe, hibernate saprà che deve creare questa entità a database
@@ -40,9 +41,10 @@ public class Pizza {
 
     // RELATIONSHIP ATTRIBUTE
     // una pizza può avere più offerte speciali
-    @OneToMany(mappedBy = "pizza")
+    @OneToMany(mappedBy = "pizza", cascade = {CascadeType.REMOVE})
     // specifichiamo l'attributo con cui la relazione è già stata mappata per evitare che Hibernate crei una tabella ponte
-    private List<Offer> offers; // relazione con offer
+    // attributo cascade: se cancello una pizza rimuovo anche tutte le offerte associate ad essa
+    private List<Offer> offers = new ArrayList<>(); // relazione con offer, inizializzo la lista vuota per non avere errori se la lista risultasse null
 
     // In Spring GETTERS & SETTERS sono obbligatori per ogni campo
     public Integer getId() {
