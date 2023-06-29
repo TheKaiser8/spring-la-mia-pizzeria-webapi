@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.URL;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity // dà significato alla classe, hibernate saprà che deve creare questa entità a database
 @Table(name = "pizzas") // diamo il nome alla tabella a database
@@ -36,6 +37,12 @@ public class Pizza {
     private BigDecimal price;
 
     private LocalDateTime createdAt;
+
+    // RELATIONSHIP ATTRIBUTE
+    // una pizza può avere più offerte speciali
+    @OneToMany(mappedBy = "pizza")
+    // specifichiamo l'attributo con cui la relazione è già stata mappata per evitare che Hibernate crei una tabella ponte
+    private List<Offer> offers; // relazione con offer
 
     // In Spring GETTERS & SETTERS sono obbligatori per ogni campo
     public Integer getId() {
@@ -84,5 +91,14 @@ public class Pizza {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    // aggiungo getters & setters del nuovo attributo offers
+    public List<Offer> getOffers() {
+        return offers;
+    }
+
+    public void setOffers(List<Offer> offers) {
+        this.offers = offers;
     }
 }
