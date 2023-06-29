@@ -1,6 +1,8 @@
 package org.lessons.springlamiapizzeriacrud.controller;
 
 import jakarta.validation.Valid;
+import org.lessons.springlamiapizzeriacrud.messages.AlertMessage;
+import org.lessons.springlamiapizzeriacrud.messages.AlertMessageType;
 import org.lessons.springlamiapizzeriacrud.model.Offer;
 import org.lessons.springlamiapizzeriacrud.model.Pizza;
 import org.lessons.springlamiapizzeriacrud.repository.OfferRepository;
@@ -12,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -46,7 +49,7 @@ public class OfferController {
     }
 
     @PostMapping("/create")
-    public String store(@Valid @ModelAttribute("offer") Offer formOffer, BindingResult bindingResult) {
+    public String store(@Valid @ModelAttribute("offer") Offer formOffer, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         // verifico se in validazione ci sono stati errori
         if (bindingResult.hasErrors()) {
             // se ci sono errori ricreo il template del form (unico per create ed edit)
@@ -55,6 +58,8 @@ public class OfferController {
         // se non ci sono errori salvo l'offerta
         offerRepository.save(formOffer);
         // faccio una redirect alla pagina di dettaglio della pizza
+        // aggiungo un messaggio di successo come flash attribute utilizzando un classe CUSTOM per personalizzare i messaggi degli alert
+        redirectAttributes.addFlashAttribute("message", new AlertMessage(AlertMessageType.SUCCESS, "L'offerta " + "\"" + formOffer.getOfferTitle() + "\"" + " è stata creata!"));
         return "redirect:/pizzas/" + formOffer.getPizza().getId(); // concateno la stringa di reindirizzamento prendendo l'id della pizza attraverso l'input hidden del form dell'offerta (formOffer)
     }
 
@@ -74,7 +79,7 @@ public class OfferController {
     }
 
     @PostMapping("/edit/{id}")
-    public String update(@PathVariable Integer id, @Valid @ModelAttribute("offer") Offer formOffer, BindingResult bindingResult) {
+    public String update(@PathVariable Integer id, @Valid @ModelAttribute("offer") Offer formOffer, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         // verificare se su database esiste l'offerta con quell'id
         Optional<Offer> offerToEdit = offerRepository.findById(id);
         if (bindingResult.hasErrors()) {
@@ -90,11 +95,13 @@ public class OfferController {
         // salvo il formOffer su database (update)
         offerRepository.save(formOffer);
         // faccio una redirect alla pagina di dettaglio della pizza
+        // aggiungo un messaggio di successo come flash attribute utilizzando un classe CUSTOM per personalizzare i messaggi degli alert
+        redirectAttributes.addFlashAttribute("message", new AlertMessage(AlertMessageType.SUCCESS, "L'offerta " + "\"" + formOffer.getOfferTitle() + "\"" + " è stata aggiornata!"));
         return "redirect:/pizzas/" + formOffer.getPizza().getId(); // concateno la stringa di reindirizzamento prendendo l'id della pizza attraverso l'input hidden del form dell'offerta (formOffer)
     }
 
     @PostMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Integer offerId) {
+    public String delete(@PathVariable("id") Integer offerId, RedirectAttributes redirectAttributes) {
         // verificare se su database esiste l'offerta con quell'id
         Optional<Offer> offerToDelete = offerRepository.findById(offerId);
         if (offerToDelete.isEmpty()) {
@@ -104,6 +111,8 @@ public class OfferController {
         // se l'offerta esiste la cancello
         offerRepository.delete(offerToDelete.get());
         // faccio una redirect alla pagina di dettaglio della pizza
+        // aggiungo un messaggio di successo come flash attribute utilizzando un classe CUSTOM per personalizzare i messaggi degli alert
+        redirectAttributes.addFlashAttribute("message", new AlertMessage(AlertMessageType.SUCCESS, "L'offerta " + "\"" + offerToDelete.get().getOfferTitle() + "\"" + " è stata cancellata!"));
         return "redirect:/pizzas/" + offerToDelete.get().getPizza().getId(); // concateno la stringa di reindirizzamento prendendo l'id della pizza di cui ho cancellato l'offerta
     }
 }
