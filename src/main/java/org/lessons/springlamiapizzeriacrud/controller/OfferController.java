@@ -67,13 +67,9 @@ public class OfferController {
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Integer offerId, Model model) {
         // verificare se su database esiste l'offerta con quell'id
-        Optional<Offer> offer = offerRepository.findById(offerId);
-        if (offer.isEmpty()) {
-            // ritorno un HTTP Status 404 Not Found
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "L'offerta con ID " + offerId + " non è stata trovata");
-        }
+        Offer offer = getOfferById(offerId);
         // recupero i dati dell'offerta passandoli al model
-        model.addAttribute("offer", offer.get());
+        model.addAttribute("offer", offer);
         // ritorno il template del form
         return "/offers/form";
     }
@@ -81,17 +77,13 @@ public class OfferController {
     @PostMapping("/edit/{id}")
     public String update(@PathVariable Integer id, @Valid @ModelAttribute("offer") Offer formOffer, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         // verificare se su database esiste l'offerta con quell'id
-        Optional<Offer> offerToEdit = offerRepository.findById(id);
+        Offer offerToEdit = getOfferById(id);
         if (bindingResult.hasErrors()) {
             // se ci sono errori ricreo il template del form (unico per create ed edit)
             return "/offers/form";
         }
-        if (offerToEdit.isEmpty()) {
-            // ritorno un HTTP Status 404 Not Found
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "L'offerta con ID " + id + " non è stata trovata");
-        }
         // setto l'id dell'offerta al formOffer
-        formOffer.setId(id);
+        formOffer.setId(offerToEdit.getId());
         // salvo il formOffer su database (update)
         offerRepository.save(formOffer);
         // faccio una redirect alla pagina di dettaglio della pizza
@@ -103,16 +95,26 @@ public class OfferController {
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable("id") Integer offerId, RedirectAttributes redirectAttributes) {
         // verificare se su database esiste l'offerta con quell'id
-        Optional<Offer> offerToDelete = offerRepository.findById(offerId);
-        if (offerToDelete.isEmpty()) {
-            // ritorno un HTTP Status 404 Not Found
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "L'offerta con ID " + offerId + " non è stata trovata");
-        }
+        Offer offerToDelete = getOfferById(offerId);
         // se l'offerta esiste la cancello
-        offerRepository.delete(offerToDelete.get());
+        offerRepository.delete(offerToDelete);
         // faccio una redirect alla pagina di dettaglio della pizza
         // aggiungo un messaggio di successo come flash attribute utilizzando un classe CUSTOM per personalizzare i messaggi degli alert
-        redirectAttributes.addFlashAttribute("message", new AlertMessage(AlertMessageType.SUCCESS, "L'offerta " + "\"" + offerToDelete.get().getOfferTitle() + "\"" + " è stata cancellata!"));
-        return "redirect:/pizzas/" + offerToDelete.get().getPizza().getId(); // concateno la stringa di reindirizzamento prendendo l'id della pizza di cui ho cancellato l'offerta
+        redirectAttributes.addFlashAttribute("message", new AlertMessage(AlertMessageType.SUCCESS, "L'offerta " + "\"" + offerToDelete.getOfferTitle() + "\"" + " è stata cancellata!"));
+        return "redirect:/pizzas/" + offerToDelete.getPizza().getId(); // concateno la stringa di reindirizzamento prendendo l'id della pizza di cui ho cancellato l'offerta
+    }
+
+    // UTILITY METHODS
+    // metodo per selezionare l'offerta da database o tirare un'eccezione
+    private Offer getOfferById(Integer id) {
+        // verificare se su database esiste la pizza con quell'id
+        Optional<Offer> offer = offerRepository.findById(id);
+        if (offer.isEmpty()) {
+            // ritorno un HTTP Status 404 Not Found
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "L'offerta con ID " + id + " non è stata trovata");
+        }
+
+        // se esiste ritorno l'offerta con l'id corrispondente
+        return offer.get();
     }
 }
