@@ -52,7 +52,7 @@ public class Pizza {
             joinColumns = @JoinColumn(name = "pizza_id"),
             inverseJoinColumns = @JoinColumn(name = "ingredient_id")
     )
-    private List<Ingredient> ingredients; // relazione con ingredient
+    private List<Ingredient> ingredients = new ArrayList<>(); // relazione con ingredient, inizializzo la lista vuota per non avere errori se la lista risultasse null
 
     // In Spring GETTERS & SETTERS sono obbligatori per ogni campo
     public Integer getId() {

@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.lessons.springlamiapizzeriacrud.messages.AlertMessage;
 import org.lessons.springlamiapizzeriacrud.messages.AlertMessageType;
 import org.lessons.springlamiapizzeriacrud.model.Pizza;
+import org.lessons.springlamiapizzeriacrud.repository.IngredientRepository;
 import org.lessons.springlamiapizzeriacrud.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,10 @@ public class PizzaController {
     // dipende da PizzaRepository
     @Autowired
     private PizzaRepository pizzaRepository;
+
+    // dipende da ingredientRepository
+    @Autowired
+    private IngredientRepository ingredientRepository;
 
     // READ METHODS
     // metodo che può ricevere un parametro OPZIONALE (da query string)
@@ -80,18 +85,22 @@ public class PizzaController {
     public String create(Model model) {
         // aggiungo al model l'attributo contenente un oggetto pizza vuoto
         model.addAttribute("pizza", new Pizza());
+        // aggiungo al model la lista degli ingredienti per popolare le checkbox del form
+        model.addAttribute("ingredientList", ingredientRepository.findAll());
 //        return "/pizza/create"; // restituisco il nome del template della view in cui vi è il form di creazione
         return "/pizza/edit"; // restituisco un template unico sia per la create che per la edit
     }
 
     // metodo che gestisce la richiesta in post del form con i dati della pizza
     @PostMapping("/create")
-    public String store(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String store(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
         // i dati della pizza sono dentro all'oggetto formPizza (@ModelAtrribute("pizza") è un altro modo per scrivere model.addAttribute sottoforma di annotation)
         // verifico se in validazione ci sono stati errori
         if (bindingResult.hasErrors()) {
             // ci sono stati errori per cui restituisco la view della create con i campi precompilati
 //            return "/pizza/create";
+            // aggiungo al model la lista degli ingredienti per popolare le checkbox del form
+            model.addAttribute("ingredientList", ingredientRepository.findAll());
             return "/pizza/edit"; // restituisco un template unico sia per la create che per la edit
         }
         // setto il timestamp di creazione (lo creo automaticamente senza far inserire all'utente data e ora di creazione)
@@ -137,18 +146,21 @@ public class PizzaController {
         Pizza pizza = getPizzaById(pizzaId);
         // recupero i dati della pizza e passo la pizza alla view
         model.addAttribute("pizza", pizza); // passo tutto l'oggetto, non solo l'id
-
+        // aggiungo al model la lista degli ingredienti per popolare le checkbox del form
+        model.addAttribute("ingredientList", ingredientRepository.findAll());
         // ritorno il nome del template della view
         return "/pizza/edit";
     }
 
     @PostMapping("edit/{id}")
-    public String update(@PathVariable Integer id, @Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String update(@PathVariable Integer id, @Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
         // cerco la pizza per id
         Pizza pizzaToEdit = getPizzaById(id); // vecchia versione della pizza
         // formPizza è la nuova versione della pizza
         if (bindingResult.hasErrors()) {
             // se ci sono errori ritorno il template del form
+            // aggiungo al model la lista degli ingredienti per popolare le checkbox del form
+            model.addAttribute("ingredientList", ingredientRepository.findAll());
             return "pizza/edit";
         }
         // trasferisco su formPizza tutti i valori dei campi che non sono presenti o non sono modificabili nel form (altrimenti vengono persi)
