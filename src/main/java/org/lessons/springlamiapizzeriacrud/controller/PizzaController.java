@@ -86,7 +86,7 @@ public class PizzaController {
         // aggiungo al model l'attributo contenente un oggetto pizza vuoto
         model.addAttribute("pizza", new Pizza());
         // aggiungo al model la lista degli ingredienti per popolare le checkbox del form
-        model.addAttribute("ingredientList", ingredientRepository.findAll());
+        getIngredientList(model);
 //        return "/pizza/create"; // restituisco il nome del template della view in cui vi è il form di creazione
         return "/pizza/edit"; // restituisco un template unico sia per la create che per la edit
     }
@@ -100,7 +100,7 @@ public class PizzaController {
             // ci sono stati errori per cui restituisco la view della create con i campi precompilati
 //            return "/pizza/create";
             // aggiungo al model la lista degli ingredienti per popolare le checkbox del form
-            model.addAttribute("ingredientList", ingredientRepository.findAll());
+            getIngredientList(model);
             return "/pizza/edit"; // restituisco un template unico sia per la create che per la edit
         }
         // setto il timestamp di creazione (lo creo automaticamente senza far inserire all'utente data e ora di creazione)
@@ -147,7 +147,7 @@ public class PizzaController {
         // recupero i dati della pizza e passo la pizza alla view
         model.addAttribute("pizza", pizza); // passo tutto l'oggetto, non solo l'id
         // aggiungo al model la lista degli ingredienti per popolare le checkbox del form
-        model.addAttribute("ingredientList", ingredientRepository.findAll());
+        getIngredientList(model);
         // ritorno il nome del template della view
         return "/pizza/edit";
     }
@@ -160,7 +160,7 @@ public class PizzaController {
         if (bindingResult.hasErrors()) {
             // se ci sono errori ritorno il template del form
             // aggiungo al model la lista degli ingredienti per popolare le checkbox del form
-            model.addAttribute("ingredientList", ingredientRepository.findAll());
+            getIngredientList(model);
             return "pizza/edit";
         }
         // trasferisco su formPizza tutti i valori dei campi che non sono presenti o non sono modificabili nel form (altrimenti vengono persi)
@@ -201,5 +201,10 @@ public class PizzaController {
 
         // ritorno il risultato dell'id della pizza
         return result.get();
+    }
+
+    private void getIngredientList(Model model) {
+        // aggiungo al model la lista degli ingredienti per popolare le checkbox del form
+        model.addAttribute("ingredientList", ingredientRepository.findAll());
     }
 }
