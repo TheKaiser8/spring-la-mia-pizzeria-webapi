@@ -8,4 +8,16 @@ INSERT INTO `offers` (`pizza_id`, `start_offer_date`, `end_offer_date`, `offer_t
 INSERT INTO `offers` (`pizza_id`, `start_offer_date`, `end_offer_date`, `offer_title`) VALUES (4, '2023-06-01', '2023-06-30', 'Offerta del mese');
 INSERT INTO `offers` (`pizza_id`, `start_offer_date`, `end_offer_date`, `offer_title`) VALUES (4, '2023-07-01', '2023-07-30', 'Speciale Luglio');
 INSERT INTO `offers` (`pizza_id`, `start_offer_date`, `end_offer_date`, `offer_title`) VALUES (4, '2023-06-27', '2023-07-01', 'Dolce a metà prezzo');
+INSERT INTO `ingredients` (`name`, `description`) VALUES ("Pomodoro", "Tipologia ciliegino. Il termine “ciligino” indica un pomodorino di piccole dimensioni, e tondo proprio come una ciliegia.");
+INSERT INTO `ingredients` (`name`, `description`) VALUES ("Mozzarella", "Mozzarella fiordilatte proveniente dalla provincia di Napoli.");
+INSERT INTO `ingredients` (`name`, `description`) VALUES ("Basilico", "Il basilico napoletano dal sapore delicato.");
+INSERT INTO `ingredients` (`name`, `description`) VALUES ("Mozzarella di bufala", "La Mozzarella di Bufala Campana è l'unica mozzarella realizzata solo con latte di bufala ad aver ottenuto il marchio DOP.");
+INSERT INTO `ingredients` (`name`, `description`) VALUES ("Prosciutto cotto", "Il prosciutto cotto San Giovanni di Angelo Capitelli che è stato eletto il miglior cotto d'Italia secondo la Guida Salumi d'Italia 2023.");
+INSERT INTO `ingredients` (`name`, `description`) VALUES ("Funghi", "Funghi porcini freschi.");
+INSERT INTO `ingredients` (`name`, `description`) VALUES ("Salame piccante", "Salame delicatamente piccante.");
+INSERT INTO `ingredients` (`name`, `description`) VALUES ("Wurstel", "Wurstel tagliato a rondelle.");
+INSERT INTO `ingredients` (`name`, `description`) VALUES ("Patatine", "Patatine fritte.");
+
+
+
 

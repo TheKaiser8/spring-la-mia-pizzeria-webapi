@@ -8,6 +8,66 @@
 </header>
 <main class="container">
     <h1 class="fw-semibold text-danger mb-4">Elenco ingredienti</h1>
+    <div class="row justify-content-between">
+        <!-- Elenco ingredienti -->
+        <div class="col-7">
+            <ol class="list-group list-group-numbered" th:if="${ingredients.size > 0}">
+                <li class="list-group-item d-flex justify-content-between align-items-start"
+                    th:each="ing : ${ingredients}" th:object="${ing}">
+                    <div class="ms-2 me-auto">
+                        <h5 class="fw-bold" th:text="*{name}"></h5>
+                        <p th:text="*{description}"></p>
+                    </div>
+                    <span class="badge bg-danger rounded-pill">8</span>
+                </li>
+            </ol>
+            <!-- messaggio informativo se la pizza NON ha ingredienti -->
+            <div th:unless="${ingredients.size > 0}" class="alert alert-info">
+                <h4>Non sono presenti ingredienti</h4>
+            </div>
+        </div>
+        <!-- Form creazione/modifica ingrediente -->
+        <div class="col-4">
+            <h2 class="fw-semibold text-danger mb-3">Aggiungi ingrediente</h2>
+            <form th:action="@{/ingredients/save}"
+                  th:object="${ingredientObj}" method="post" id="ingredient-form" class="row">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold" for="name">Nome*</label>
+                    <input class="form-control" type="text" id="name" th:field="*{name}"
+                           th:errorClass="is-invalid"
+                           placeholder="Inserisci il nome dell'ingrediente...">
+                    <div class="form-text">Il campo nome non può essere vuoto, deve avere almeno 3 caratteri e non
+                        superare i 50 caratteri
+                    </div>
+                    <div th:if="${#fields.hasErrors('name')}" class="invalid-feedback">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('name')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold" for="description">Descrizione</label>
+                    <textarea class="form-control" id="description" th:field="*{description}" th:errorClass="is-invalid"
+                              rows="5" placeholder="Inserisci la descrizione dell'ingrediente..."></textarea>
+                    <div class="form-text">La descrizione non può superare i 500 caratteri</div>
+                    <div th:if="${#fields.hasErrors('description')}" class="invalid-feedback">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-12 mt-3">
+                    <button class="btn btn-success fw-semibold me-2" type="submit"><i
+                            class="fa-solid fa-check me-1"></i> Salva
+                    </button>
+                    <!-- rimando alla pagina di dettaglio della pizza -->
+                    <a class="btn btn-primary fw-semibold" th:href="@{/ingredients}" type="reset"><i
+                            class="fa-solid fa-delete-left me-1"></i>
+                        Annulla</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </main>
 </body>
 </html>
