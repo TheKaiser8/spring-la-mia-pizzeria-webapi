@@ -39,12 +39,20 @@ public class Pizza {
 
     private LocalDateTime createdAt;
 
-    // RELATIONSHIP ATTRIBUTE
+    // RELATIONSHIP ATTRIBUTES
     // una pizza può avere più offerte speciali
     @OneToMany(mappedBy = "pizza", cascade = {CascadeType.REMOVE})
     // specifichiamo l'attributo con cui la relazione è già stata mappata per evitare che Hibernate crei una tabella ponte
     // attributo cascade: se cancello una pizza rimuovo anche tutte le offerte associate ad essa
     private List<Offer> offers = new ArrayList<>(); // relazione con offer, inizializzo la lista vuota per non avere errori se la lista risultasse null
+
+    @ManyToMany
+    @JoinTable(
+            name = "pizza_ingredient",
+            joinColumns = @JoinColumn(name = "pizza_id"),
+            inverseJoinColumns = @JoinColumn(name = "ingredient_id")
+    )
+    private List<Ingredient> ingredients; // relazione con ingredient
 
     // In Spring GETTERS & SETTERS sono obbligatori per ogni campo
     public Integer getId() {
@@ -102,5 +110,13 @@ public class Pizza {
 
     public void setOffers(List<Offer> offers) {
         this.offers = offers;
+    }
+
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 }

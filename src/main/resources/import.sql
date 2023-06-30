@@ -17,6 +17,23 @@ INSERT INTO `ingredients` (`name`, `description`) VALUES ("Funghi", "Funghi porc
 INSERT INTO `ingredients` (`name`, `description`) VALUES ("Salame piccante", "Salame delicatamente piccante.");
 INSERT INTO `ingredients` (`name`, `description`) VALUES ("Wurstel", "Wurstel tagliato a rondelle.");
 INSERT INTO `ingredients` (`name`, `description`) VALUES ("Patatine", "Patatine fritte.");
+INSERT INTO `pizza_ingredient` (`pizza_id`, `ingredient_id`) VALUES (1, 1);
+INSERT INTO `pizza_ingredient` (`pizza_id`, `ingredient_id`) VALUES (1, 2);
+INSERT INTO `pizza_ingredient` (`pizza_id`, `ingredient_id`) VALUES (1, 3);
+INSERT INTO `pizza_ingredient` (`pizza_id`, `ingredient_id`) VALUES (2, 1);
+INSERT INTO `pizza_ingredient` (`pizza_id`, `ingredient_id`) VALUES (2, 4);
+INSERT INTO `pizza_ingredient` (`pizza_id`, `ingredient_id`) VALUES (2, 5);
+INSERT INTO `pizza_ingredient` (`pizza_id`, `ingredient_id`) VALUES (2, 6);
+INSERT INTO `pizza_ingredient` (`pizza_id`, `ingredient_id`) VALUES (3, 1);
+INSERT INTO `pizza_ingredient` (`pizza_id`, `ingredient_id`) VALUES (3, 2);
+INSERT INTO `pizza_ingredient` (`pizza_id`, `ingredient_id`) VALUES (3, 7);
+INSERT INTO `pizza_ingredient` (`pizza_id`, `ingredient_id`) VALUES (4, 1);
+INSERT INTO `pizza_ingredient` (`pizza_id`, `ingredient_id`) VALUES (4, 2);
+INSERT INTO `pizza_ingredient` (`pizza_id`, `ingredient_id`) VALUES (4, 8);
+INSERT INTO `pizza_ingredient` (`pizza_id`, `ingredient_id`) VALUES (4, 9);
+
+
+
 
 
 

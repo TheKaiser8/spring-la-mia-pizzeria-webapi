@@ -6,29 +6,38 @@
 <header>
     <nav th:replace="~{/fragments/navbar :: navbar(current='pizzas')}"></nav>
 </header>
-<main class="container-fluid">
+<main class="container-fluid" th:object="${pizza}">
     <!-- messaggio alert quando avviene un'azione -->
     <div th:if="${message != null}" class="alert alert-dismissible fade show" role="alert"
          th:classAppend="${#strings.equalsIgnoreCase(message.type, 'SUCCESS')} ? 'alert-success' : 'alert-danger'">
         <span th:text="${message.message}"></span>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    <h1 class="text-center text-danger fw-semibold" th:text="${pizza.name}"></h1>
+    <h1 class="text-center text-danger fw-semibold" th:text="*{name}"></h1>
     <div class="container d-flex flex-column flex-lg-row align-items-center py-4">
         <!-- card dettagli pizza -->
         <div class="card col-lg-6 rounded-top mb-5 mb-lg-0">
             <div class="text-center p-3 bg-dark rounded-top">
-                <img th:src="${pizza.photoUrl}" class="img-thumbnail" th:alt="${pizza.name}">
+                <img th:src="*{photoUrl}" class="img-thumbnail" th:alt="*{name}">
             </div>
             <div class="card-body">
                 <div class="bg-light rounded-top p-3">
                     <h4 class="card-title text-center fw-bold"></h4>
                     <p>
-                        <strong>Descrizione: </strong><span th:text="${pizza.description}"></span>
+                        <strong>Descrizione: </strong><span th:text="*{description}"></span>
                     </p>
-                    <p>
-                        <strong>Prezzo: </strong><span th:text="|${pizza.price}€|"></span>
-                    </p>
+                    <div class="mb-3">
+                        <h6 class="fw-bold">Ingredienti:</h6>
+                        <span class="badge text-bg-dark m-1" th:if="*{ingredients.size > 0}"
+                              th:each="ing : *{ingredients}"
+                              th:text="${ing.name}"></span>
+                        <div class="alert alert-info" th:unless="*{ingredients.size > 0}">Non sono presenti
+                            ingredienti
+                        </div>
+                    </div>
+                    <div>
+                        <strong>Prezzo: </strong><span th:text="|*{price}€|"></span>
+                    </div>
                 </div>
                 <div class="text-center bg-light rounded-bottom pb-3">
                     <a th:href="@{/pizzas}" class="btn btn-primary fw-semibold m-1">

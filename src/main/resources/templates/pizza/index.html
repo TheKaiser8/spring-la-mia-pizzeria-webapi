@@ -43,7 +43,7 @@
             <tbody>
             <tr th:each="pizza : ${pizzaList}">
                 <td th:text="${pizza.name}"></td>
-                <td th:text="${pizza.description}"></td>
+                <td th:text="${pizza.description}" class="col-6"></td>
                 <td th:text="${pizza.price} + €"></td>
                 <td>
                     <a th:href="@{|/pizzas/${pizza.id}|}" class="btn btn-outline-info ms-white-hover my-1">
