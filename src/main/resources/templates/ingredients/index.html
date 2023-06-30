@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{/fragments/resources :: head(pageTitle='Lista ingredienti')}">
+</head>
+<body>
+<header>
+    <nav th:replace="~{/fragments/navbar :: navbar(current='ingredients')}"></nav>
+</header>
+<main class="container">
+    <h1 class="fw-semibold text-danger mb-4">Elenco ingredienti</h1>
+</main>
+</body>
+</html>
