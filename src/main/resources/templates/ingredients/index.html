@@ -18,6 +18,18 @@
                         <h5 class="fw-bold" th:text="*{name}"></h5>
                         <p th:text="*{description}"></p>
                     </div>
+                    <div class="mx-2 d-flex align-self-center">
+                        <!-- passo il paramentro opzionale editIngredient per avere i campi pre-caricati -->
+                        <a th:href="@{/ingredients(editIngredient=*{id})}"
+                           class="btn btn-outline-warning ms-white-hover me-1">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <form class="" th:action="@{|/ingredients/delete/*{id}|}"
+                              method="post">
+                            <button class="btn btn-outline-danger" type="submit"><i class="fa-solid fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
                     <span class="badge bg-danger rounded-pill">8</span>
                 </li>
             </ol>
@@ -31,6 +43,8 @@
             <h2 class="fw-semibold text-danger mb-3">Aggiungi ingrediente</h2>
             <form th:action="@{/ingredients/save}"
                   th:object="${ingredientObj}" method="post" id="ingredient-form" class="row">
+                <!-- passo l'id dell'ingredient al form come attributo nascosto per non creare un oggetto nuovo ad ogni modifica -->
+                <input type="hidden" th:field="*{id}">
                 <div class="mb-3">
                     <label class="form-label fw-semibold" for="name">Nome*</label>
                     <input class="form-control" type="text" id="name" th:field="*{name}"
