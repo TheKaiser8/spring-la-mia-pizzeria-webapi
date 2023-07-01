@@ -6,7 +6,7 @@
 <header>
     <nav th:replace="~{/fragments/navbar :: navbar(current='pizzas')}"></nav>
 </header>
-<main class="container-fluid" th:object="${pizza}">
+<main class="container-fluid mb-3" th:object="${pizza}">
     <!-- messaggio alert quando avviene un'azione -->
     <div th:if="${message != null}" class="alert alert-dismissible fade show" role="alert"
          th:classAppend="${#strings.equalsIgnoreCase(message.type, 'SUCCESS')} ? 'alert-success' : 'alert-danger'">

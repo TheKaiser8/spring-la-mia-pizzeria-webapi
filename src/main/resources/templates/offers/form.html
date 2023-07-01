@@ -6,7 +6,7 @@
 <header>
     <nav th:replace="~{/fragments/navbar :: navbar(current='pizzas')}"></nav>
 </header>
-<main class="container">
+<main class="container mb-3">
     <h1 class="fw-semibold text-danger mb-3"
         th:text="|${isEdit ? 'Modifica' : 'Nuova'} offerta speciale pizza: ${offer.pizza.name}|">
     </h1>
