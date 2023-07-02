@@ -31,20 +31,22 @@
     </div>
     <!-- tabella lista pizze -->
     <div th:if="${pizzaList.size() > 0}">
-        <table class="table table-striped table-responsive table-hover border-danger align-middle">
+        <table class="ms-table table table-striped table-responsive table-hover border-danger align-middle">
             <thead class="border-bottom border-4 border-danger">
             <tr>
                 <th>Nome</th>
-                <th>Descrizione</th>
+                <th class="d-none d-sm-table-cell col-md-6">Descrizione</th>
                 <th>Prezzo</th>
-                <th>Azioni</th>
+                <th class="col-sm-4 col-lg-2">Azioni</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="pizza : ${pizzaList}">
-                <td th:text="${pizza.name}"></td>
-                <td th:text="${pizza.description}" class="col-6"></td>
-                <td th:text="${pizza.price} + €"></td>
+                <td th:text="${pizza.name}" class="pe-2 pe-sm-4"></td>
+                <td class="d-none d-sm-table-cell">
+                    <div class="truncate-text pe-2 pe-sm-4" th:text="${pizza.description}"></div>
+                </td>
+                <td th:text="${pizza.price} + €" class="pe-2 pe-sm-4"></td>
                 <td>
                     <a th:href="@{|/pizzas/${pizza.id}|}" class="btn btn-outline-info ms-white-hover my-1">
                         <i class="fa-solid fa-eye"></i>
