@@ -42,7 +42,7 @@ public class SecurityConfiguration {
     /*
         ROTTE da proteggere:
         /pizzas/create ADMIN
-        /pizzas/** ADMIN e USER
+        /pizzas/{id} ADMIN e USER
         /pizzas ADMIN e USER
         /pizzas/edit/**
         /pizzas/delete/** ADMIN
@@ -55,13 +55,11 @@ public class SecurityConfiguration {
         // definisco la catena di filtri
         http.authorizeHttpRequests()
                 .requestMatchers("/pizzas/create").hasAuthority("ADMIN")
-                .requestMatchers("/pizzas").hasAnyAuthority("ADMIN", "USER")
-                .requestMatchers("/pizzas/**").hasAnyAuthority("ADMIN", "USER")
                 .requestMatchers("/pizzas/edit/**").hasAuthority("ADMIN")
-                .requestMatchers("/pizzas/delete/**").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.POST).hasAuthority("ADMIN")
+                .requestMatchers("/pizzas/**").hasAnyAuthority("ADMIN", "USER")
                 .requestMatchers("/offers/**").hasAuthority("ADMIN")
                 .requestMatchers("/ingredients/**").hasAuthority("ADMIN")
-                .requestMatchers(HttpMethod.POST).hasAuthority("ADMIN")
                 .requestMatchers("/**").permitAll()
                 .and().formLogin()
                 .and().logout();

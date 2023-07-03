@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:insert="~{/fragments/resources :: head(pageTitle='Dettagli pizza')}">
 </head>
 <body>
@@ -50,7 +50,8 @@
         <!-- tabella offerte pizza -->
         <div class="col-12 col-lg-6 ps-lg-5">
             <h2 class="text-center text-danger fw-semibold mb-3">Offerte speciali</h2>
-            <a th:href="@{/offers/create(pizzaId=${pizza.id})}" class="btn btn-primary fw-semibold mb-3"><i
+            <a th:href="@{/offers/create(pizzaId=${pizza.id})}" class="btn btn-primary fw-semibold mb-3" sec:authorize=
+                    "hasAuthority('ADMIN')"><i
                     class="fa-solid fa-plus me-1"></i> Crea nuova offerta</a>
             <table th:if="${pizza.offers.size > 0}"
                    class="table table-striped table-responsive table-hover border-danger align-middle">
@@ -68,11 +69,14 @@
                     <td th:text="*{#temporals.format(startOfferDate, 'dd/MM/yyyy')}"></td>
                     <td th:text="*{#temporals.format(endOfferDate, 'dd/MM/yyyy')}"></td>
                     <td>
-                        <a th:href="@{|/offers/edit/*{id}|}" class="btn btn-outline-warning ms-white-hover my-1">
+                        <a th:href="@{|/offers/edit/*{id}|}" class="btn btn-outline-warning ms-white-hover my-1"
+                           sec:authorize=
+                                   "hasAuthority('ADMIN')">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
                         <form class="d-inline-block" th:action="@{|/offers/delete/*{id}|}"
-                              method="post">
+                              method="post" sec:authorize=
+                                      "hasAuthority('ADMIN')">
                             <button class="btn btn-outline-danger" type="submit"><i class="fa-solid fa-trash"></i>
                             </button>
                         </form>

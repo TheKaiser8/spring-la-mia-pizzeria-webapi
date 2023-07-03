@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:insert="~{/fragments/resources :: head(pageTitle='Lista pizze')}">
 </head>
 <body>
@@ -15,7 +15,8 @@
     </div>
     <h1 class="fw-semibold text-danger mb-4">Elenco pizze</h1>
     <div class="d-sm-flex align-items-center justify-content-between mb-3">
-        <a th:href="@{/pizzas/create}" class="btn btn-primary fw-semibold mb-3 mb-sm-0"><i
+        <a th:href="@{/pizzas/create}" class="btn btn-primary fw-semibold mb-3 mb-sm-0" sec:authorize=
+                "hasAuthority('ADMIN')"><i
                 class="fa-solid fa-plus me-1"></i> Crea nuova pizza</a>
         <!-- form di ricerca -->
         <form th:action="@{/pizzas}" method="GET">
@@ -51,16 +52,20 @@
                     <a th:href="@{|/pizzas/${pizza.id}|}" class="btn btn-outline-info ms-white-hover my-1">
                         <i class="fa-solid fa-eye"></i>
                     </a>
-                    <a th:href="@{|/pizzas/edit/${pizza.id}|}" class="btn btn-outline-warning ms-white-hover my-1">
+                    <a th:href="@{|/pizzas/edit/${pizza.id}|}" class="btn btn-outline-warning ms-white-hover my-1"
+                       sec:authorize=
+                               "hasAuthority('ADMIN')">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </a>
                     <!-- impedisco l'azione di eliminazione della pizza se ci sono delle offerte associate -->
                     <form class="d-inline-block" th:action="@{|/pizzas/delete/${pizza.id}|}"
-                          method="post" th:if="${pizza.offers.size == 0}">
+                          method="post" th:if="${pizza.offers.size == 0}" sec:authorize=
+                                  "hasAuthority('ADMIN')">
                         <button class="btn btn-outline-danger" type="submit"><i class="fa-solid fa-trash"></i></button>
                     </form>
                     <!-- mostro un pulsante senza funzionalità e disabilitato ai fini di una migliore user experience -->
-                    <button th:unless="${pizza.offers.size == 0}" class="btn btn-outline-danger" type="submit" disabled>
+                    <button th:unless="${pizza.offers.size == 0}" class="btn btn-outline-danger" type="submit"
+                            sec:authorize="hasAuthority('ADMIN')" disabled>
                         <i class="fa-solid fa-trash"></i></button>
                 </td>
             </tr>
