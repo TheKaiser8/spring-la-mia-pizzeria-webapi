@@ -54,3 +54,21 @@ Accanto ad ogni offerta speciale è previsto un bottone che mi porterà a una pa
 Nuovo pezzettino per la nostra pizzeria : gli ingredienti!
 Ogni pizza può avere più ingredienti, e ogni ingrediente può essere collegato a più pizze.
 Prevediamo quindi una pagina per mostrare l’elenco di tutti gli ingredienti che utilizziamo nella nostra pizzeria che permetta anche di crearne di nuovi (e di cancellarli). Nella pagina di creazione (e modifica) della singola pizza dobbiamo dare la possibilità di collegare uno o più ingredienti.
+
+7)
+Esercizio di oggi: Spring La Mia Pizzeria Security
+nome repo: spring-la-mia-pizzeria-security
+IMPORTANTE: Ricordatevi di sganciare la vostra vecchia repository e di crearne una nuova per questo esercizio, che prosegue il lavoro della pizzeria, dove lo avevate lasciato.
+IMPORTANTISSIMO: modificate il pom.xml del progetto in modo che la versione di Spring Boot sia la 3.0.5 e non 3.1.x
+<parent>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-parent</artifactId>
+  <version>3.0.5</version>
+  <relativePath/> <!-- lookup parent from repository -->
+</parent>
+Oggi proteggiamo la nostra applicazione!
+Abbiamo sviluppato tutte le pagine per gestire la nostra pizzeria (elenco pizze, dettagli singola pizza, creazione, modifica, cancellazione, offerte speciali, ingredienti)… ma vogliamo che chiunque possa effettuare queste operazioni? Sicuramente no! Quindi inseriamo l’autenticazione in modo che solo gli utenti registrati possano accedere a queste pagine. Creiamo le entity necessarie e popoliamo a mano i dati degli utenti nel database.
+Sono previsti due ruoli :
+USER
+ADMIN
+Gli utenti con ruolo USER possono accedere solo alla pagina index e a quella di dettaglio. Gli utenti ADMIN possono fare tutto.
