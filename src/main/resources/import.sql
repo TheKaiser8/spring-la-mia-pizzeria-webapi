@@ -32,6 +32,13 @@ INSERT INTO `pizza_ingredient` (`pizza_id`, `ingredient_id`) VALUES (4, 2);
 INSERT INTO `pizza_ingredient` (`pizza_id`, `ingredient_id`) VALUES (4, 8);
 INSERT INTO `pizza_ingredient` (`pizza_id`, `ingredient_id`) VALUES (4, 9);
 
+INSERT INTO `users` (`id`, `email`, `first_name`, `last_name`, `password`) VALUES (1, 'giovanni@email.com', 'Giovanni', 'Storti', '{noop}john');
+INSERT INTO `users` (`id`, `email`, `first_name`, `last_name`, `password`) VALUES (2, 'giacomo@email.com', 'Giovanni', 'Poretti', '{noop}jack');
+INSERT INTO `roles` (`id`, `name`) VALUES (1, 'ADMIN');
+INSERT INTO `roles` (`id`, `name`) VALUES (2, 'USER');
+INSERT INTO `users_roles` (`user_id`, `roles_id`) VALUES (1, 1);
+INSERT INTO `users_roles` (`user_id`, `roles_id`) VALUES (2, 2);
+
 
 
 
