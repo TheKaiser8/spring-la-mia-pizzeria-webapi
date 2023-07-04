@@ -4,6 +4,8 @@ import jakarta.validation.Valid;
 import org.lessons.springlamiapizzeriacrud.model.Pizza;
 import org.lessons.springlamiapizzeriacrud.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,11 +23,16 @@ public class PizzaRestController {
 
     // servizio per avere la lista delle pizze con parametro opzionale
     @GetMapping
-    public List<Pizza> index(@RequestParam Optional<String> keyword) {
+    public List<Pizza> index(
+            @RequestParam Optional<String> keyword,
+            @RequestParam(defaultValue = "2") Integer size,
+            @RequestParam(defaultValue = "0") Integer page) {
+        // creo un Pageable a partire da size e page
+        Pageable pageable = PageRequest.of(page, size);
         if (keyword.isEmpty()) {
-            return pizzaRepository.findAll();
+            return pizzaRepository.findAll(pageable).getContent();
         } else {
-            return pizzaRepository.findByNameContainingIgnoreCase(keyword.get());
+            return pizzaRepository.findByNameContainingIgnoreCase(keyword.get(), pageable);
         }
     }
 

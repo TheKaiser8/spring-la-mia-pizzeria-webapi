@@ -7,6 +7,7 @@ import org.lessons.springlamiapizzeriacrud.model.Pizza;
 import org.lessons.springlamiapizzeriacrud.repository.IngredientRepository;
 import org.lessons.springlamiapizzeriacrud.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +35,7 @@ public class PizzaController {
     // READ METHODS
     // metodo che può ricevere un parametro OPZIONALE (da query string)
     @GetMapping
-    public String index(@RequestParam(name = "q", required = false) String searchString, Model model) {
+    public String index(@RequestParam(name = "q", required = false) String searchString, Model model, Pageable pageable) {
         // q è il nome che ho dato al parametro in get e nella URL devo richiamare questo nome (esempio: ?q=dune)
         List<Pizza> pizzas;
         if (searchString == null || searchString.isBlank()) {
@@ -42,7 +43,7 @@ public class PizzaController {
             pizzas = pizzaRepository.findAll();
         } else {
             // se ho il parametro searchString faccio la query per filtrare la lista
-            pizzas = pizzaRepository.findByNameContainingIgnoreCase(searchString);
+            pizzas = pizzaRepository.findByNameContainingIgnoreCase(searchString, pageable);
         }
 
         // passo la lista delle pizze alla view
