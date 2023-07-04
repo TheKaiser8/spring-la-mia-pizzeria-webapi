@@ -7,6 +7,8 @@ import org.lessons.springlamiapizzeriacrud.model.Pizza;
 import org.lessons.springlamiapizzeriacrud.repository.IngredientRepository;
 import org.lessons.springlamiapizzeriacrud.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -17,7 +19,6 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -35,19 +36,25 @@ public class PizzaController {
     // READ METHODS
     // metodo che può ricevere un parametro OPZIONALE (da query string)
     @GetMapping
-    public String index(@RequestParam(name = "q", required = false) String searchString, Model model, Pageable pageable) {
-        // q è il nome che ho dato al parametro in get e nella URL devo richiamare questo nome (esempio: ?q=dune)
-        List<Pizza> pizzas;
+    public String index(
+            @RequestParam(name = "q", required = false) String searchString, // q è il nome che ho dato al parametro in get e nella URL devo richiamare questo nome (esempio: ?q=dune)
+            Model model,
+            @RequestParam(defaultValue = "2") Integer size,
+            @RequestParam(defaultValue = "0") Integer page) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Pizza> pizzasPage; // creo oggetto Page che contiene una lista di elementi di tipo Pizza
         if (searchString == null || searchString.isBlank()) {
-            // se NON ho il parametro esegue la query generica e recupero la lista delle pizze dele database
-            pizzas = pizzaRepository.findAll();
+            // se NON ho il parametro esegue la query generica e recupero la lista delle pizze del database
+            pizzasPage = pizzaRepository.findAll(pageable);
         } else {
             // se ho il parametro searchString faccio la query per filtrare la lista
-            pizzas = pizzaRepository.findByNameContainingIgnoreCase(searchString, pageable);
+            pizzasPage = pizzaRepository.findByNameContainingIgnoreCase(searchString, pageable);
         }
 
         // passo la lista delle pizze alla view
-        model.addAttribute("pizzaList", pizzas);
+        model.addAttribute("pizzaList", pizzasPage.getContent()); // con metodo getContent() ottengo la lista di elementi della Page
+        // passo la paginazione alla view
+        model.addAttribute("pizzasPage", pizzasPage);
         // aggiungo un altro attributo al model per mantenere il valore della input dopo l'invio della ricerca filtrata
         model.addAttribute("searchInput", searchString == null ? "" : searchString);
         // restituisco il nome del template della view
