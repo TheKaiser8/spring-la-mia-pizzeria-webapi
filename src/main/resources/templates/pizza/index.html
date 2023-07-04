@@ -76,6 +76,20 @@
     <div th:unless="${pizzaList.size() > 0}" class="alert alert-info fs-3" role="alert">
         La lista delle pizze è vuota!
     </div>
+    <!-- link di paginazione -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination text-danger">
+            <li class="page-item">
+                <a class="page-link text-danger border-danger" th:if="${pizzasPage != null && pageNumber > 0}"
+                   th:href="@{/pizzas(page=${pageNumber - 1})}">Indietro</a>
+            </li>
+            <li th:each="pageNumber : ${#numbers.sequence(0, pizzasPage.getTotalPages() - 1)}" class="page-item">
+                <a class="page-link text-danger border-danger" th:href="@{/pizzas(page=${pageNumber})}"
+                   th:text="${pageNumber + 1}"></a>
+            </li>
+            <li class="page-item"><a class="page-link text-danger border-danger" href="#">Avanti</a></li>
+        </ul>
+    </nav>
 </main>
 </body>
 </html>
