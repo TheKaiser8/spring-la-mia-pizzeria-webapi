@@ -13,7 +13,7 @@
             <i class="fa-solid fa-bars text-white"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav navbar-nav-right">
+            <ul class="navbar-nav navbar-nav-right d-flex align-items-center">
                 <!-- nei link appendo la classe active se l'area corrisponde a quella del link -->
                 <li class="nav-item">
                     <a class="nav-link fw-semibold text-white" th:href="@{/pizzas}"><span
@@ -23,6 +23,8 @@
                         "hasAuthority('ADMIN')">
                     <a class="nav-link fw-semibold text-white" th:href="@{/ingredients}"><span
                             th:classappend="${current == 'ingredients' ? 'ms-active' : ''}">INGREDIENTI</span></a>
+                <li class="nav-item fw-semibold text-white">
+                    Bentornato <span sec:authentication="name"></span>
                 </li>
             </ul>
         </div>
