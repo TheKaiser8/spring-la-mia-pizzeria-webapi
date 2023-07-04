@@ -1,5 +1,6 @@
 package org.lessons.springlamiapizzeriacrud.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -28,6 +29,7 @@ public class Ingredient {
 
     // per poter cancellare un ingrediente anche se è associato a delle pizze devo definire l'attributo di relazione
     // specificando che la relazione è già stata mappata nel model Pizza
+    @JsonIgnore // ignoro le pizze per evitare la ricorsione infinita
     @ManyToMany(mappedBy = "ingredients")
     private List<Pizza> pizzas = new ArrayList<>(); // relazione con pizza, inizializzo la lista vuota per non avere errori se la lista risultasse null
 

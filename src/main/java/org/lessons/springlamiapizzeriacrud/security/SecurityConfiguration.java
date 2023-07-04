@@ -56,13 +56,15 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests()
                 .requestMatchers("/pizzas/create").hasAuthority("ADMIN")
                 .requestMatchers("/pizzas/edit/**").hasAuthority("ADMIN")
-                .requestMatchers(HttpMethod.POST).hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/books/**").hasAuthority("ADMIN") // limito la protezione a /books/** per poter esporre le api
                 .requestMatchers("/pizzas/**").hasAnyAuthority("ADMIN", "USER")
                 .requestMatchers("/offers/**").hasAuthority("ADMIN")
                 .requestMatchers("/ingredients/**").hasAuthority("ADMIN")
                 .requestMatchers("/**").permitAll()
                 .and().formLogin()
                 .and().logout();
+        // disabilitiamo csrf per poter invocare le api da Postman
+        http.csrf().disable();
         return http.build();
     }
 }

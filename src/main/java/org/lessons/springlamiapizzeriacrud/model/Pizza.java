@@ -1,11 +1,13 @@
 package org.lessons.springlamiapizzeriacrud.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.URL;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +43,7 @@ public class Pizza {
 
     // RELATIONSHIP ATTRIBUTES
     // una pizza può avere più offerte speciali
+    @JsonIgnore // ignoro le offers per evitare la ricorsione infinita
     @OneToMany(mappedBy = "pizza", cascade = {CascadeType.REMOVE})
     // specifichiamo l'attributo con cui la relazione è già stata mappata per evitare che Hibernate crei una tabella ponte
     // attributo cascade: se cancello una pizza rimuovo anche tutte le offerte associate ad essa
@@ -118,5 +121,11 @@ public class Pizza {
 
     public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    @JsonIgnore
+    public String getFormattedCreatedAt() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MMMM dd 'at' HH:mm");
+        return createdAt.format(formatter);
     }
 }
