@@ -3,6 +3,7 @@ package org.lessons.springlamiapizzeriacrud.api;
 import jakarta.validation.Valid;
 import org.lessons.springlamiapizzeriacrud.model.Pizza;
 import org.lessons.springlamiapizzeriacrud.repository.PizzaRepository;
+import org.lessons.springlamiapizzeriacrud.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +21,9 @@ public class PizzaRestController {
 
     @Autowired
     private PizzaRepository pizzaRepository;
+
+    @Autowired
+    private PizzaService pizzaService;
 
     // servizio per avere la lista delle pizze paginata con parametro opzionale di ricerca
     @GetMapping
@@ -50,7 +54,7 @@ public class PizzaRestController {
     // servizio per creare una nuova pizza (arriva nel Request Body in formato JSON)
     @PostMapping
     public Pizza create(@Valid @RequestBody Pizza pizza) {
-        return pizzaRepository.save(pizza);
+        return pizzaService.create(pizza);
     }
 
     // servizio per modificare/aggiornare una pizza

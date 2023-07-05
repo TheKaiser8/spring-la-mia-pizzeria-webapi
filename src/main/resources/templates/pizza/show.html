@@ -18,7 +18,8 @@
         <!-- card dettagli pizza -->
         <div class="card col-lg-6 rounded-top mb-5 mb-lg-0">
             <div class="text-center p-3 bg-dark rounded-top">
-                <img th:src="*{photoUrl}" class="img-thumbnail" th:alt="*{name}">
+                <img th:if="photoUrl != null" th:src="*{photoUrl}" class="img-thumbnail" th:alt="*{name}">
+                <!--                <img th:if="coverFile != null" th:src="*{coverFile}" class="img-thumbnail" th:alt="*{name}">-->
             </div>
             <div class="card-body">
                 <div class="bg-light rounded-top p-3">

@@ -1,11 +1,13 @@
 package org.lessons.springlamiapizzeriacrud.controller;
 
 import jakarta.validation.Valid;
+import org.lessons.springlamiapizzeriacrud.dto.PizzaForm;
 import org.lessons.springlamiapizzeriacrud.messages.AlertMessage;
 import org.lessons.springlamiapizzeriacrud.messages.AlertMessageType;
 import org.lessons.springlamiapizzeriacrud.model.Pizza;
 import org.lessons.springlamiapizzeriacrud.repository.IngredientRepository;
 import org.lessons.springlamiapizzeriacrud.repository.PizzaRepository;
+import org.lessons.springlamiapizzeriacrud.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Controller
@@ -32,6 +33,10 @@ public class PizzaController {
     // dipende da ingredientRepository
     @Autowired
     private IngredientRepository ingredientRepository;
+
+    // dipende da PizzaService
+    @Autowired
+    PizzaService pizzaService;
 
     // READ METHODS
     // metodo che può ricevere un parametro OPZIONALE (da query string)
@@ -91,8 +96,8 @@ public class PizzaController {
     // metodo che restituisce la pagina contenente il form di creazione di una nuova pizza
     @GetMapping("/create")
     public String create(Model model) {
-        // aggiungo al model l'attributo contenente un oggetto pizza vuoto
-        model.addAttribute("pizza", new Pizza());
+        // aggiungo al model l'attributo contenente un DTO PizzaForm vuoto
+        model.addAttribute("pizza", new PizzaForm());
         // aggiungo al model la lista degli ingredienti per popolare le checkbox del form
         getIngredientList(model);
 //        return "/pizza/create"; // restituisco il nome del template della view in cui vi è il form di creazione
@@ -101,9 +106,13 @@ public class PizzaController {
 
     // metodo che gestisce la richiesta in post del form con i dati della pizza
     @PostMapping("/create")
-    public String store(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
-        // i dati della pizza sono dentro all'oggetto formPizza (@ModelAtrribute("pizza") è un altro modo per scrivere model.addAttribute sottoforma di annotation)
+    public String store(@Valid @ModelAttribute("pizza") PizzaForm pizzaForm, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
         // verifico se in validazione ci sono stati errori
+        // se NON ci sono stati errori
+        if (!bindingResult.hasErrors()) {
+            // utilizzo PizzaService per salvare su db una Pizza a partire dal PizzaForm
+            pizzaService.create(pizzaForm);
+        }
         if (bindingResult.hasErrors()) {
             // ci sono stati errori per cui restituisco la view della create con i campi precompilati
 //            return "/pizza/create";
@@ -111,12 +120,9 @@ public class PizzaController {
             getIngredientList(model);
             return "/pizza/edit"; // restituisco un template unico sia per la create che per la edit
         }
-        // setto il timestamp di creazione (lo creo automaticamente senza far inserire all'utente data e ora di creazione)
-        formPizza.setCreatedAt(LocalDateTime.now());
-        // persisto formPizza su database
-        pizzaRepository.save(formPizza); // metodo save fa una create sql se l'oggetto con quella PRIMARY KEY non esiste, altrimenti fa l'update
+
         // aggiungo un messaggio di successo come flash attribute utilizzando un classe CUSTOM per personalizzare i messaggi degli alert
-        redirectAttributes.addFlashAttribute("message", new AlertMessage(AlertMessageType.SUCCESS, "La pizza " + "\"" + formPizza.getName() + "\"" + " è stata creata!"));
+        redirectAttributes.addFlashAttribute("message", new AlertMessage(AlertMessageType.SUCCESS, "La pizza " + "\"" + pizzaForm.getName() + "\"" + " è stata creata!"));
         // se l'operazione va a buon fine rimando alla lista delle pizze
         return "redirect:/pizzas";
     }

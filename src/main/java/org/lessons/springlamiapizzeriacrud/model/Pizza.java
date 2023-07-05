@@ -41,6 +41,11 @@ public class Pizza {
 
     private LocalDateTime createdAt;
 
+    // creo campo cover per l'immagine che sarà salvata su db come array di bytes
+    @Lob
+    @Column(length = 16777215) // lunghezza 16 MB (MEDIUMBLOB)
+    private byte[] cover;
+
     // RELATIONSHIP ATTRIBUTES
     // una pizza può avere più offerte speciali
     @JsonIgnore // ignoro le offers per evitare la ricorsione infinita
@@ -121,6 +126,14 @@ public class Pizza {
 
     public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public byte[] getCover() {
+        return cover;
+    }
+
+    public void setCover(byte[] cover) {
+        this.cover = cover;
     }
 
     @JsonIgnore

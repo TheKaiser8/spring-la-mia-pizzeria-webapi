@@ -13,7 +13,8 @@
     <!-- form di creazione/modifica pizza -->
     <form th:with="formAction=${isEdit ? '/pizzas/edit/'+ pizza.id : '/pizzas/create'}" th:action="@{${formAction}}"
           th:object="${pizza}" method="post" id="pizza-form"
-          class="row flex-column flex-sm-row justify-content-between">
+          class="row flex-column flex-sm-row justify-content-between" enctype="multipart/form-data">
+        <!-- aggiungo l'attributo enctype per permettere al form di inviare file -->
         <!-- campi pizza -->
         <div class="col-sm-7">
             <div class="col-12 mb-3">
@@ -67,6 +68,17 @@
                 <div th:if="${#fields.hasErrors('price')}" class="invalid-feedback">
                     <ul>
                         <li th:each="err : ${#fields.errors('price')}" th:text="${err}"></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- input file immagine (cover) -->
+            <div class="col-12 mb-3">
+                <label class="form-label fw-semibold" for="cover-file">File immagine</label>
+                <input class="form-control" type="file" id="cover-file" th:field="*{coverFile}"
+                       th:errorClass="is-invalid">
+                <div th:if="${#fields.hasErrors('coverFile')}" class="invalid-feedback">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('coverFile')}" th:text="${err}"></li>
                     </ul>
                 </div>
             </div>

@@ -85,3 +85,10 @@ modificare una pizza esistente
 cancellare una pizza
 Queste operazioni devono poter essere eseguite tramite PostMan, non preoccupiamoci quindi della parte di frontend per ora.
 BONUS: il controller con la lista delle pizze deve essere paginato
+
+9)
+Ultimo giorno di lavoro sulla pizzeria.
+IMPORTANTE: Continuiamo l’esercizio di ieri, stessa repo.
+Per l’esercitazione di oggi potete scegliere una delle seguenti opzioni (o entrambe come BONUS):
+Front End: creiamo un semplice progetto frontend che richiami le web api della pizzeria e tramite javascript mostri in pagina i dati. Vogliamo una pagina per la lista delle pizze (filtrabili per titolo), una per la creazione di una nuova pizza e il pulsante per la cancellazione di un elemento. Potete usare vanilla js o un framework a vostra scelta.
+Upload Immagine: modificare la parte di applicazione MVC per gestire l’upload dell’immagine della pizza tramite html <form>, il suo salvataggio su database, e il servizio che espone le immagini per mostrarle nei tag <img>
